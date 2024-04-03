@@ -1,0 +1,143 @@
+
+```{r}
+### Task 2.7
+## Spliting the data of y into 2 form i.e. Traning and testing data set.
+set.seed(123)
+split_Y<-initial_split(data = as.data.frame(Y),prop=.7)
+## Traning Y data split
+Y_training_set<-training(split_Y)
+Y_testing_set<-as.matrix(testing(split_Y))
+## Testing Y data split
+Y_training_data<-as.matrix(Y_training_set)
+## Spliting the data of y into 2 form i.e. Traning and testing data set.
+split_X<-initial_split(data = as.data.frame(x),prop=.7)
+## Traning X data split
+X_training_set<-training(split_X)
+## Testing X data split
+X_testing_set<-as.matrix(testing(split_X))
+X_testing_data<-as.matrix(X_testing_set)
+X_training_data<-as.matrix(X_training_set)
+### Estimating model parameters using Traning set
+traning_ones=matrix(1 , length(X_training_set$X1),1)
+X_traning_model<-cbind(traning_ones,X_training_set[,"X2"],(X_training_set[,"X1"])^3,(X_training_set[
+,"X3"])^4)
+traning_thetahat <- ginv(t(X_traning_model) %*% X_traning_model) %*% t(X_traning_model) %*%Y_training_data
+traning_thetahat
+
+# Create the design matrix for the testing data using the same model equation
+set.seed(123) # Set seed for reproducibility
+split_X <- initial_split(data = as.data.frame(x), prop = 0.7)
+split_Y <- initial_split(data = as.data.frame(y), prop = 0.7)
+X_training_set <- training(split_X)
+X_testing_set <- testing(split_X)
+Y_training_set <- as.matrix(training(split_Y))
+Y_testing_set <- as.matrix(testing(split_Y))
+# Create the design matrix for the selected 'best' model
+traning_ones <- matrix(1, nrow = nrow(X_training_set), ncol = 1)
+X_training_model <- cbind(traning_ones, X_training_set[,"X2"], (X_training_set[,"X1"])^3, 
+(X_training_set[,"X3"])^4)
+theta_hat <- ginv(t(X_training_model) %*% X_training_model) %*% t(X_training_model) %*% Y_training_set
+traning_ones_test <- matrix(1, nrow = nrow(X_testing_set), ncol = 1)
+X_testing_model <- cbind(traning_ones_test, X_testing_set[,"X2"], 
+(X_testing_set[,"X1"])^3, (X_testing_set[,"X3"])^4)
+# calculate model predictions on the testing data
+Y_testing_hat <- X_testing_model %*% theta_hat
+# Evaluating 95% confidence intervals for the model predictions
+z <- qnorm(0.975) # Z-score for 95% confidence interval
+n_len <- nrow(X_testing_model)
+error <- Y_testing_set - Y_testing_hat
+valid_indices <- (error != 0) # Check for non-zero error values
+# Ensure that the values inside sqrt are non-negative using abs function
+C_I_1 <- ifelse(valid_indices, z * sqrt(abs(error * (1 - error)) / n_len), 0)
+C_I_2 <- ifelse(valid_indices, z * sqrt(abs(error * (1 + error)) / n_len), 0)
+# Plotting
+plot(Y_testing_set, col = "red", pch = 19, xlab = "Index", ylab = "Y Value", main = "Model 
+Predictions and 95% Confidence Intervals")
+points(Y_testing_hat, col = "blue", pch = 19)
+# Add error bars for 95% confidence intervals
+arrows(x0 = 1:n_len, y0 = Y_testing_hat - C_I_1, y1 = Y_testing_hat + C_I_2, angle = 90, 
+code = 3, length = 0.1, col = "green")
+# Legend
+legend("topright", legend = c("Testing Data", "Model Predictions", "95% CI"), col = c("red", 
+"blue", "green"), pch = 19, cex = 0.8)
+```
+
+
+```{r}
+### Task 2.7
+## Spliting the data of y into 2 form i.e. Traning and testing data set.
+### Model out/Prediction
+Y_testing_hat = X_testing_data %*% traning_thetahat
+Y_testing_hat
+RSS_testing=sum((Y_testing_set-Y_testing_hat)^2)
+RSS_testing
+t.test(Y_training_data, mu=500, alternative="two.sided", conf.level=0.95)
+C_I1=-2.996730
+C_I2=3.017749
+p2 <- plot(density(Y_training_data), col="green", lwd=2,
+main="Distribution of Training Data")
+abline(v=C_I1,col="blue", lty=2)
+abline(v=C_I2,col="blue", lty=2)
+thetaHat_training =solve(t(X_training_data) %*% X_training_data) %*% t(X_training_data) %*%
+Y_training_data
+thetaHat_training
+length(thetaHat_training)
+dis_test=density(Y_training_data)
+plot((dis_test))
+plot(dis_test,main = "Density plot of Y Signal")
+```
+```{r}
+### Calculating Confidential interval
+z=1.96 ##(95%) Confidential interval
+error=((Y_testing_set-Y_testing_hat))
+n_len=length(Y_testing_hat)
+C_I_1= z * sqrt( (error * (1-error) ) / n_len)
+C_I_1
+C_I_2= z* sqrt( (error * (1+error) )/ n_len)
+C_I_2
+
+```
+
+```
+```{r}
+##Task 3
+## Model 2 will be used, parameter are selected and kept constant.
+arr_1=0
+arr_2=0
+f_value=0
+s_value=0
+Model2_thetahat
+#values from thetahat
+thetebias <- 0.448299550 #choosen parameter
+thetaone <- 0.038109255 # chosen prarameter
+thetatwo <- 0.009827804 # constant value
+thetafour <- 0.002092558 # constant value
+Epison <- RSS_Model_2 * 2 ## fixing value of eplision
+num <- 100 #number of iteration
+##Calculating Y-hat for performing rejection ABC
+counter <- 0
+for (i in 1:num) {
+range1 <- runif(1,-0.448299550,0.448299550) # calculating the range
+range1
+range2 <- runif(1,-0.038109255,0.038109255)
+New_thetahat <- matrix(c(range1,range2,thetatwo,thetafour))
+New_Y_Hat <- X_model2 %*% New_thetahat ## New Y hat
+new_RSS <- sum((Y-New_Y_Hat)^2)
+new_RSS
+if (new_RSS > Epison){
+arr_1[i] <- range1
+arr_2[i] <- range2
+counter = counter+1
+f_value <- matrix(arr_1)
+s_value <- matrix(arr_2)
+}
+}
+hist(f_value)
+hist(s_value)
+
+
+###ploting the graph
+plot(f_value,s_value, col = c("black", "green"), main = "Joint and Marginal Posterior Distribution")
+
+
+```

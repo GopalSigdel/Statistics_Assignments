@@ -87,7 +87,7 @@ customer_shopping_data.ts <- ts(x,
 
 # Plot the time series of input x with one-month interval
 plot(customer_shopping_data.ts, main = "Time series plot of Input", 
-     xlab = "Invoice Date", ylab = "X (inputs)")
+     xlab = "Invoice Date", ylab = "X (inputs)", col='blue')
 
 # Plot the time series of output y
 # Convert invoice_date to Date format if not already done
@@ -120,7 +120,7 @@ rug(jitter(x$price))
 
 
 dis=density(x$payment_method)
-plot(dis,main = "Density plot of whole inputs")
+plot(dis,main = "Density plot of payment_method")
 
 # Creating a Histogram of X Inputs
 hist(x$payment_method,freq = FALSE,main="Histogram and density plot of payment Method",xlab = "Payment Method")
@@ -130,7 +130,7 @@ lines(dis,lwd=2,col="blue")
 rug(jitter(x$payment_method))
 
 dis=density(x$age)
-plot(dis,main = "Density plot of whole inputs")
+plot(dis,main = "Density plot of age")
 
 # Creating a Histogram of X Inputs
 hist(x$age,freq = FALSE,main = "Histogram and density plot of age")
@@ -140,7 +140,7 @@ lines(dis,lwd=2,col="blue")
 rug(jitter(x$age))
 
 dis=density(x$category)
-plot(dis,main = "Density plot of whole inputs")
+plot(dis,main = "Density plot of category")
 
 # Creating a Histogram of X Inputs
 hist(x$category,freq = FALSE,main = "Histogram and density plot of category")
@@ -151,7 +151,7 @@ rug(jitter(x$category))
 
 
 dis=density(customer_shopping_data$quantity)
-plot(dis,main = "Density plot of whole inputs")
+plot(dis,main = "Density plot of quantity")
 
 # Creating a Histogram of X Inputs
 hist(customer_shopping_data$quantity,freq = FALSE,main = "Histogram and density plot of Quantity")
@@ -192,34 +192,34 @@ ones
 #Task 2.1
 #Calculating thetahat of Model 1
 #Binding data from equation of model 1.
-X_model1<-cbind(ones,(x[,"X4"]),(x[,"X1"])^2,(x[,"X1"])^3,(x[,"X3"])^4)
+X_model1<-cbind(ones,(x[,"X4"]),(x[,"X1"])^2,(x[,"X1"])^3,(x[,"X2"])^4,(x[,"X1"])^4)
 ridge_model1 <- glmnet(X_model1, Y, alpha = 0)  # Alpha = 0 for Ridge
 Model1_thetahat <- coef(ridge_model1)
 print(Model1_thetahat)
 
 #Model 2
 #Binding data from equation of model 2.
-X_model2<-cbind(ones,(x[,"X3"])^3,(x[,"X3"])^4)
+X_model2<-cbind(ones,(x[,"X4"]),(x[,"X1"])^3,(x[,"X3"])^4)
 ridge_model2 <- glmnet(X_model2, Y, alpha = 0)  # Alpha = 0 for Ridge
 Model2_thetahat <- coef(ridge_model2)
 Model2_thetahat
 
 #For model 3
 #Binding data from equation of model 3.
-X_model3<-cbind(ones,x[,"X2"],(x[,"X1"])^3,(x[,"X3"])^4)
+X_model3<-cbind(ones,(x[,"X3"])^3,(x[,"X3"])^4)
 ridge_model3 <- glmnet(X_model3, Y, alpha = 0)  # Alpha = 0 for Ridge
 Model3_thetahat <- coef(ridge_model3)
 Model3_thetahat
 
 #For model 4
 #Binding data from equation of model 4.
-X_model4<-cbind(ones,x[,"X4"],x[,"X1"]^3,x[,"X3"]^4)
+X_model4<-cbind(ones,x[,"X2"],x[,"X1"]^3,x[,"X3"]^4)
 ridge_model4 <- glmnet(X_model4, Y, alpha = 0)  # Alpha = 0 for Ridge
 Model4_thetahat <- coef(ridge_model4)
 Model4_thetahat
 
 #Binding data from equation of model 5.
-X_model5<-cbind(ones,x[,"X4"],x[,"X1"]^2,x[,"X1"]^3,x[,"X3"]^4,x[,"X1"]^4)
+X_model5<-cbind(ones,x[,"X4"],x[,"X1"]^2,x[,"X1"]^3,x[,"X3"]^4)
 ridge_model5 <- glmnet(X_model5, Y, alpha = 0)  # Alpha = 0 for Ridge
 Model5_thetahat <- coef(ridge_model5)
 Model5_thetahat
@@ -364,50 +364,50 @@ BIC_model5
 model1_error <- Y-Y_hat_m1
 ## Plotting the graph QQplot and QQ line of model 1
 qqnorm(model1_error, col = "darkcyan",main = "QQ plot of model 1")
-qqline(model1_error, col = "green",lwd=1)
+qqline(model1_error, col = "blue",lwd=1)
 
 ## Error of model2
 model2_error <- Y-Y_hat_m2 # error of model 2
 ## Plotting QQplot and QQ line of model 2
 qqnorm(model2_error, col = "darkcyan",main = "QQ plot of model 2")
-qqline(model2_error, col = "green")
+qqline(model2_error, col = "blue")
 
 ## Error of model3
 model3_error <- Y- Y_hat_m3
 ## Plotting QQplot and QQ line of model 3
 qqnorm(model3_error, col = "darkcyan",main = "QQ plot of model 3")
-qqline(model3_error, col = "green")
+qqline(model3_error, col = "blue")
 
 ## Error of model4
 model4_error <- Y-Y_hat_m4
 ## Plotting QQplot and QQ line of model 4
 qqnorm(model4_error, col = "darkcyan",main = "QQ plot of model 4")
-qqline(model4_error, col = "green")
+qqline(model4_error, col = "black")
 
 ## Error of model5
 model5_error <- Y- Y_hat_m5
 ## Plotting QQplot and QQ line of model 5
 qqnorm(model5_error, col = "darkcyan",main = "QQ plot of model 5")
-qqline(model5_error, col = "green")
+qqline(model5_error, col = "red")
 
 
 ### Task 2.7
-## Spliting the data of y into 2 form i.e. Traning and testing data set.
+## Spliting the data of y into 2 form i.e. Training and testing data set(70% training and 30% testing).
 set.seed(123)
 split_Y<-initial_split(data = as.data.frame(Y),prop=.7)
 ## Traning Y data split
 Y_training_set<-training(split_Y)
-Y_testing_set<-as.matrix(testing(split_Y))
-## Testing Y data split
 Y_training_data<-as.matrix(Y_training_set)
-## Spliting the data of y into 2 form i.e. Traning and testing data set.
+## Testing Y data split
+Y_testing_set<-as.matrix(testing(split_Y))
+## Spliting the data of x into 2 form i.e. Training and testing data set(70% training and 30% testing).
 split_X<-initial_split(data = as.data.frame(x),prop=.7)
 ## Traning X data split
 X_training_set<-training(split_X)
+X_training_data<-as.matrix(X_training_set)
 ## Testing X data split
 X_testing_set<-as.matrix(testing(split_X))
 X_testing_data<-as.matrix(X_testing_set)
-X_training_data<-as.matrix(X_training_set)
 ### Estimating model parameters using Traning set
 traning_ones=matrix(1 , length(X_training_set$X1),1)
 X_traning_model<-cbind(traning_ones,X_training_set[,"X2"],(X_training_set[,"X1"])^3,(X_training_set[
@@ -423,10 +423,10 @@ RSS_testing
 t.test(Y_training_data, mu=500, alternative="two.sided", conf.level=0.95)
 C_I1=-2.996730
 C_I2=3.017749
-p2 <- plot(density(Y_training_data), col="black", lwd=2,
+p2 <- plot(density(Y_training_data), col="green", lwd=2,
 main="Distribution of Training Data")
-abline(v=C_I1,col="green", lty=2)
-abline(v=C_I2,col="green", lty=2)
+abline(v=C_I1,col="blue", lty=2)
+abline(v=C_I2,col="blue", lty=2)
 thetaHat_training =solve(t(X_training_data) %*% X_training_data) %*% t(X_training_data) %*%
 Y_training_data
 thetaHat_training
@@ -444,8 +444,45 @@ C_I_1
 C_I_2= z* sqrt( (error * (1+error) )/ n_len)
 C_I_2
 
+# Create the design matrix for the testing data using the same model equation
+set.seed(123) # Set seed for reproducibility
+split_X <- initial_split(data = as.data.frame(x), prop = 0.7)
+split_Y <- initial_split(data = as.data.frame(y), prop = 0.7)
+X_training_set <- training(split_X)
+X_testing_set <- testing(split_X)
+Y_training_set <- as.matrix(training(split_Y))
+Y_testing_set <- as.matrix(testing(split_Y))
+# Create the design matrix for the selected 'best' model
+traning_ones <- matrix(1, nrow = nrow(X_training_set), ncol = 1)
+X_training_model <- cbind(traning_ones, X_training_set[,"X2"], (X_training_set[,"X1"])^3, 
+(X_training_set[,"X3"])^4)
+theta_hat <- ginv(t(X_training_model) %*% X_training_model) %*% t(X_training_model) %*% Y_training_set
+traning_ones_test <- matrix(1, nrow = nrow(X_testing_set), ncol = 1)
+X_testing_model <- cbind(traning_ones_test, X_testing_set[,"X2"], 
+(X_testing_set[,"X1"])^3, (X_testing_set[,"X3"])^4)
+# calculate model predictions on the testing data
+Y_testing_hat <- X_testing_model %*% theta_hat
+# Evaluating 95% confidence intervals for the model predictions
+z <- qnorm(0.975) # Z-score for 95% confidence interval
+n_len <- nrow(X_testing_model)
+error <- Y_testing_set - Y_testing_hat
+valid_indices <- (error != 0) # Check for non-zero error values
+# Ensure that the values inside sqrt are non-negative using abs function
+C_I_1 <- ifelse(valid_indices, z * sqrt(abs(error * (1 - error)) / n_len), 0)
+C_I_2 <- ifelse(valid_indices, z * sqrt(abs(error * (1 + error)) / n_len), 0)
+# Plotting
+plot(Y_testing_set, col = "red", pch = 19, xlab = "Index", ylab = "Y Value", main = "Model 
+Predictions and 95% Confidence Intervals")
+points(Y_testing_hat, col = "blue", pch = 19)
+# Add error bars for 95% confidence intervals
+arrows(x0 = 1:n_len, y0 = Y_testing_hat - C_I_1, y1 = Y_testing_hat + C_I_2, angle = 90, 
+code = 3, length = 0.1, col = "green")
+# Legend
+legend("topright", legend = c("Testing Data", "Model Predictions", "95% CI"), col = c("red", 
+"blue", "green"), pch = 19, cex = 0.8)
+
 ##Task 3
-## Model 2 will be used, parameter are selected and kept constant.
+## Model 3 will be used, parameter are selected and kept constant.
 arr_1=0
 arr_2=0
 f_value=0
@@ -456,7 +493,7 @@ thetebias <- 0.448299550 #choosen parameter
 thetaone <- 0.038109255 # chosen prarameter
 thetatwo <- 0.009827804 # constant value
 thetafour <- 0.002092558 # constant value
-Epison <- RSS_Model_2 * 2 ## fixing value of eplision
+Epison <- RSS_Model_3 * 2 ## fixing value of eplision
 num <- 100 #number of iteration
 ##Calculating Y-hat for performing rejection ABC
 counter <- 0
@@ -465,7 +502,7 @@ range1 <- runif(1,-0.448299550,0.448299550) # calculating the range
 range1
 range2 <- runif(1,-0.038109255,0.038109255)
 New_thetahat <- matrix(c(range1,range2,thetatwo,thetafour))
-New_Y_Hat <- X_model2 %*% New_thetahat ## New Y hat
+New_Y_Hat <- X_model3 %*% New_thetahat ## New Y hat
 new_RSS <- sum((Y-New_Y_Hat)^2)
 new_RSS
 if (new_RSS > Epison){
@@ -486,8 +523,4 @@ plot(f_value,s_value, col = c("black", "green"), main = "Joint and Marginal Post
 
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

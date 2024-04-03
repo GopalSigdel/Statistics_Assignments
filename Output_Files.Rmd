@@ -1,0 +1,164 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# Plot the time series of input x with one-month interval
+plot(customer_shopping_data.ts, main = "Time series plot of Input", 
+     xlab = "Invoice Date", ylab = "X (inputs)", col='blue')
+```
+```{r}
+# Plot the time series of input x with one-month interval
+plot(customer_shopping_data.ts, main = "Time series plot of Input", 
+     xlab = "Invoice Date", ylab = "X (inputs)", col ='blue')
+```
+
+```{r}
+plot(customer_shopping_data.ts, main = "Time series plot of Output", 
+     xlab = "Invoice Date", ylab = "Y (output) or Total Quantity", col='blue')
+```
+
+```{r}
+# Creating a Histogram of X Inputs
+hist(x$price,freq = FALSE,main="Histogram and density plot of price",xlab = "Price", col ='blue')
+```
+```{r}
+#Distribution#
+
+dis=density(x$price)
+plot(dis,main = "Density plot of price")
+```
+
+```{r}
+dis=density(x$price)
+plot(dis,main = "Density plot of price")
+
+# Creating a Histogram of X Inputs
+hist(x$price,freq = FALSE,main="Histogram and density plot of price",xlab = "Price")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$price))
+```
+
+```{r}
+dis=density(x$payment_method)
+plot(dis,main = "Density plot of payment_method")
+
+# Creating a Histogram of X Inputs
+hist(x$payment_method,freq = FALSE,main="Histogram and density plot of payment Method",xlab = "Payment Method")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$payment_method))
+```
+
+```{r}
+dis=density(x$age)
+plot(dis,main = "Density plot of age")
+
+# Creating a Histogram of X Inputs
+hist(x$age,freq = FALSE,main = "Histogram and density plot of age")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$age))
+```
+
+
+```{r}
+dis=density(x$category)
+plot(dis,main = "Density plot of category")
+
+# Creating a Histogram of X Inputs
+hist(x$category,freq = FALSE,main = "Histogram and density plot of category")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$category))
+```
+```{r}
+dis=density(customer_shopping_data$quantity)
+plot(dis,main = "Density plot of quantity")
+
+# Creating a Histogram of X Inputs
+hist(customer_shopping_data$quantity,freq = FALSE,main = "Histogram and density plot of Quantity")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$customer_shopping_data$quantity))
+```
+
+```{r}
+dis=density(x$category)
+plot(dis,main = "Density plot of whole inputs")
+
+# Creating a Histogram of X Inputs
+hist(x$category,freq = FALSE,main = "Histogram and density plot of category")
+
+#Adding density in the histogram
+lines(dis,lwd=2,col="blue")
+rug(jitter(x$category))
+```
+```{r}
+# Plotting age against quantity
+Y <- customer_shopping_data$quantity
+plot(x$age,Y,main = "Correlation between age and quantity signal", xlab = "age", ylab = "quantity" )
+
+plot(x$price,Y,main = "Correlation between price and quantity signal", xlab = "price", ylab = "quantity" )
+
+plot(x$category,Y,main = "Correlation between category and quantity signal", xlab = "category", ylab = "quantity" )
+
+plot(x$payment_method,Y,main = "Correlation between payment_method and quantity signal", xlab = "payment_method", ylab = "quantity" )
+
+#X = x
+x$quantity <- customer_shopping_data$quantity
+cor(x)
+plot(x)
+```
+```{r}
+model1_error <- Y-Y_hat_m1
+## Plotting the graph QQplot and QQ line of model 1
+qqnorm(model1_error, col = "darkcyan",main = "QQ plot of model 1")
+qqline(model1_error, col = "blue",lwd=1)
+
+```
+```{r}
+## Error of model2
+model2_error <- Y-Y_hat_m2 # error of model 2
+## Plotting QQplot and QQ line of model 2
+qqnorm(model2_error, col = "darkcyan",main = "QQ plot of model 2")
+qqline(model2_error, col = "blue")
+
+
+```
+```{r}
+## Error of model3
+model3_error <- Y- Y_hat_m3
+## Plotting QQplot and QQ line of model 3
+qqnorm(model3_error, col = "darkcyan",main = "QQ plot of model 3")
+qqline(model3_error, col = "red")
+
+
+```
+
+```{r}
+## Error of model4
+model4_error <- Y-Y_hat_m4
+## Plotting QQplot and QQ line of model 4
+qqnorm(model4_error, col = "darkcyan",main = "QQ plot of model 4")
+qqline(model4_error, col = "black")
+
+
+```
+```{r}
+## Error of model5
+model5_error <- Y- Y_hat_m5
+## Plotting QQplot and QQ line of model 5
+qqnorm(model5_error, col = "darkcyan",main = "QQ plot of model 5")
+qqline(model5_error, col = "red")
+
+
+```
